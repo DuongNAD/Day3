@@ -1,0 +1,913 @@
+/* === BASE STYLES & VARIABLES === */
+:root {
+    --primary-color: rgb(6, 156, 84); /* #069C54 */
+    --text-color-dark: rgb(57, 57, 57); /* #393939 */
+    --text-color-medium: rgb(112, 112, 112); /* #707070 */
+    --text-color-light: rgb(131, 131, 131); /* #838383 */
+    --text-color-lighter: rgb(168, 168, 168); /* #A8A8A8 */
+    --background-color-light: rgb(251, 254, 253); /* #FBFEFD */
+    --background-color-white: #fff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --border-color-light: #f2f2f2;
+  
+    --header-height: 50px;
+    --font-family-default: "Poppins", sans-serif;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: var(--font-family-default);
+    /* overflow: hidden; bị xóa ở media query 768px vì nó chặn scroll dọc */
+  }
+  
+  /* === LAYOUT CONTAINER === */
+  .tasty-food {
+    display: flex;
+    flex-direction: column;
+    gap: 100px; /* Khoảng cách giữa các section lớn */
+    align-items: center;
+    width: 100%; /* Đảm bảo container chiếm toàn bộ chiều rộng */
+  }
+  
+  /* === HEADER === */
+  .header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between; /* Phân bố không gian tốt hơn gap % */
+    padding: 0 2rem;
+    background-color: var(--background-color-light);
+    box-shadow: 0 4px 4px var(--shadow-color);
+    z-index: 999;
+    height: var(--header-height);
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  
+  .header-logo h2 { /* Thêm selector h2 để rõ ràng hơn */
+    color: var(--text-color-light);
+    margin: 0; /* Reset margin mặc định của h2 */
+    font-size: 1.5rem; /* Điều chỉnh kích thước nếu cần */
+  }
+  
+  .header-tool {
+    flex: 1; /* Cho phép tool chiếm không gian còn lại */
+    display: flex;
+    align-items: center;
+    height: var(--header-height);
+    justify-content: flex-end; /* Đẩy navbar và mode về bên phải */
+    gap: 1rem; /* Khoảng cách giữa navbar và mode */
+  }
+  
+  .navbar {
+    height: var(--header-height);
+    /* flex: 1; không cần thiết khi header-tool đã là flex */
+    display: flex; /* Giữ lại để căn chỉnh nav-menu */
+    align-items: center;
+  }
+  
+  .nav-menu {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    height: var(--header-height);
+    margin: 0; /* Reset margin mặc định của ul */
+    padding: 0; /* Reset padding mặc định của ul */
+  }
+  
+  .nav-menu li {
+    font-weight: bold;
+    height: var(--header-height); /* Chiều cao bằng header */
+    display: flex; /* Sử dụng flex để căn giữa line-height */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 0 18px; /* Padding trái phải */
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Hiệu ứng mượt hơn */
+  }
+  
+  .nav-item {
+    color: var(--text-color-light);
+  }
+  
+  .nav-item-home {
+    color: var(--primary-color);
+  }
+  
+  .nav-menu li:hover {
+    color: var(--background-color-white);
+    background-color: var(--primary-color);
+  }
+  
+  .mode {
+    display: flex;
+    align-items: center;
+    height: var(--header-height);
+    cursor: pointer;
+    color: var(--text-color-medium); /* Thêm màu cho icon */
+  }
+  
+  .menu { /* Hamburger icon */
+    display: none; /* Ẩn mặc định trên desktop */
+    height: var(--header-height);
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-color-medium); /* Thêm màu cho icon */
+  }
+  
+  /* === SHARED BUTTON STYLES === */
+  /* Tạo một class chung cho button để tái sử dụng */
+  .btn {
+    display: inline-block;
+    padding: 0.6rem 1rem; /* Chuẩn hóa padding */
+    font-size: 1.8rem;
+    color: var(--background-color-white);
+    background-color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    transition: background-color 0.4s, color 0.4s;
+    cursor: pointer;
+    text-align: center;
+    font-family: inherit; /* Kế thừa font từ body */
+    line-height: normal; /* Đảm bảo line-height chuẩn */
+    max-width: 200px; /* Đặt max-width nếu cần giới hạn */
+  }
+  
+  .btn:hover {
+    background-color: var(--background-color-white);
+    color: var(--primary-color);
+  }
+  
+  /* === HOME SECTION === */
+  .nav-home {
+    padding-top: calc(var(--header-height) + 50px); /* Tính toán padding top dựa trên chiều cao header */
+    padding-left: 12%;
+    padding-right: 12%;
+    display: flex;
+    justify-content: center; /* Căn giữa nội dung */
+    align-items: center;
+    gap: 10%; /* Giảm gap một chút */
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+  }
+  
+  .nav-home img {
+    width: 100%; /* Chiều rộng linh hoạt */
+    max-width: 480px; /* Giới hạn chiều rộng tối đa */
+    height: auto; /* Giữ tỷ lệ */
+  }
+  
+  .introduce {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 500px; /* Giới hạn chiều rộng */
+  }
+  
+  .introduce h1 {
+    font-size: 4rem;
+    color: var(--primary-color);
+    line-height: 1.1; /* Điều chỉnh line-height */
+  }
+  
+  .introduce h2 {
+    font-size: 2.7rem;
+    color: var(--text-color-dark);
+    font-weight: bold;
+    margin: 0; /* Reset margin */
+    line-height: 1.2; /* Điều chỉnh line-height */
+  }
+  
+  .introduce button#view-menu { /* Áp dụng style chung */
+    /* padding: 0.4rem 0.4rem; */ /* Dùng padding từ .btn */
+    /* font-size: 1.8rem; */ /* Dùng font-size từ .btn */
+    max-width: 170px; /* Giữ lại max-width cụ thể nếu cần */
+  }
+  
+  /* === ABOUT SECTION (PAGE 2) === */
+  .page-2 {
+    display: flex;
+    /* flex-direction: row; Mặc định là row */
+    justify-content: space-between; /* Đẩy 2 phần ra xa */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 10% 12% 0; /* Thêm padding bottom nếu cần */
+    gap: 5%; /* Thêm khoảng cách */
+    width: 100%;
+  }
+  
+  .page-2 img {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    border-radius: 6px;
+  }
+  
+  .about-me {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Căn lề trái cho chữ */
+    text-align: left; /* Căn lề trái cho chữ */
+    max-width: 560px;
+  }
+  
+  .about-me span {
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    font-weight: 600; /* Thêm độ đậm */
+  }
+  
+  .about-me h2 {
+    font-size: 2.5em; /* Tăng kích thước H2 một chút */
+    color: var(--text-color-dark); /* Thống nhất màu */
+    margin: 0.5em 0; /* Điều chỉnh margin */
+    font-weight: bold;
+  }
+  
+  .about-me p {
+    color: var(--text-color-medium);
+    font-size: 1.2rem;
+    margin: 0 0 2rem 0; /* Chỉ giữ margin bottom */
+    line-height: 1.6; /* Tăng line-height cho dễ đọc */
+  }
+  
+  .about-me button { /* Áp dụng style chung */
+    margin-top: 0; /* Reset margin-top vì đã có gap từ p */
+  }
+  
+  /* === SERVICES SECTION (OFFERING) === */
+  .offering {
+    padding-top: 100px; /* Giảm padding-top */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 50px; /* Tăng gap */
+    width: 100%;
+    padding-left: 5%; /* Thêm padding ngang */
+    padding-right: 5%;
+  }
+  
+  .offering-text span {
+    color: var(--primary-color);
+    font-size: 1.6rem; /* Giảm kích thước span */
+    font-weight: 600;
+  }
+  
+  .offering-text h2 {
+    font-size: 2.5em; /* Tăng kích thước H2 */
+    color: var(--text-color-dark);
+    margin: 0.5em 0;
+    font-weight: bold;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: center; /* Căn giữa các item */
+    gap: 60px; /* Giảm gap */
+    flex-wrap: wrap; /* Cho phép xuống dòng nếu không đủ chỗ */
+    width: 100%;
+  }
+  
+  .service-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-width: 300px; /* Tăng max-width */
+    height: auto;
+  }
+  
+  .service-item img {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 1rem; /* Thêm khoảng cách dưới ảnh */
+  }
+  
+  .service-item h3 {
+    color: var(--text-color-dark); /* Đổi màu h3 */
+    font-size: 1.5em; /* Tăng kích thước h3 */
+    margin: 0.5em 0;
+    font-weight: bold;
+  }
+  
+  .service-item p {
+    color: var(--text-color-medium); /* Đổi màu p */
+    font-size: 1.1rem; /* Giảm nhẹ font-size */
+    margin: 0;
+    line-height: 1.6;
+  }
+  
+  /* === MENU SECTION (SPECIAL) === */
+  .special {
+    padding-top: 100px; /* Giảm padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Căn giữa section */
+    text-align: center;
+    padding-bottom: 100px;
+    width: 100%;
+    padding-left: 5%; /* Thêm padding ngang */
+    padding-right: 5%;
+  }
+  
+  .special-text span {
+    font-size: 1.6rem; /* Giảm kích thước span */
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+  
+  .special-text h2 {
+    font-size: 2.5em; /* Tăng kích thước H2 */
+    color: var(--text-color-dark);
+    margin: 0.5em 0;
+    font-weight: bold;
+  }
+  
+  .food {
+    display: flex;
+    /* flex-direction: row; */
+    align-items: stretch; /* Làm các card cao bằng nhau nếu cần */
+    justify-content: center;
+    gap: 40px; /* Giảm gap */
+    margin-top: 40px;
+    flex-wrap: wrap;
+    width: 100%; /* Đảm bảo chiếm đủ không gian */
+    max-width: 1200px; /* Giới hạn chiều rộng tối đa của khu vực food */
+  }
+  
+  .special-item {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color-white);
+    box-shadow: 0 2px 8px var(--shadow-color); /* Tăng shadow nhẹ */
+    padding: 1.5rem; /* Tăng padding */
+    border-radius: 8px; /* Tăng bo góc */
+    width: 100%; /* Chiếm không gian trong flex container */
+    max-width: 280px; /* Tăng max-width */
+    gap: 10px;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; /* Thêm ease-out */
+    position: relative; /* Giữ lại nếu có element absolute bên trong */
+  }
+  
+  .special-item:hover {
+    transform: translateY(-8px); /* Tăng hiệu ứng hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Tăng shadow hover */
+  }
+  
+  .special-item img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0 auto 1rem; /* Căn giữa và thêm margin bottom */
+    border: 4px solid var(--background-color-white); /* Thêm viền trắng */
+    box-shadow: 0 2px 4px var(--shadow-color); /* Thêm shadow nhẹ cho ảnh */
+  }
+  
+  .special-item h3.menu-name {
+    font-size: 1.3rem; /* Tăng kích thước tên món */
+    margin: 0;
+    font-weight: 600; /* Tăng độ đậm */
+    color: var(--text-color-dark);
+  }
+  
+  .menu-detial {
+    font-size: 1rem;
+    color: var(--text-color-medium); /* Đổi màu */
+    flex-grow: 1; /* Đẩy phần buy xuống dưới nếu card không đều */
+  }
+  
+  .buy {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px; /* Thêm khoảng cách với detail */
+    padding-top: 10px; /* Thêm đường kẻ nhẹ nếu muốn */
+    border-top: 1px solid var(--border-color-light);
+  }
+  
+  .menu-price {
+    padding: 0; /* Reset padding */
+    font-weight: 700; /* Tăng độ đậm giá */
+    color: var(--primary-color); /* Đổi màu giá */
+    font-size: 1.2rem; /* Tăng kích thước giá */
+  }
+  
+  .cart-icon {
+    cursor: pointer;
+    color: var(--primary-color);
+    font-size: 1.8rem; /* Tăng kích thước icon */
+    transition: transform 0.2s ease;
+  }
+  
+  .cart-icon:hover {
+    transform: scale(1.15); /* Tăng hiệu ứng hover */
+    color: darken(var(--primary-color), 10%); /* Làm màu đậm hơn khi hover */
+  }
+  
+  /* === APP SECTION (PAGE 3) === */
+  .page-3 {
+    display: flex;
+    align-items: center; /* Căn giữa */
+    padding: 5% 12%; /* Giảm padding top/bottom */
+    gap: 8%; /* Tăng gap */
+    width: 100%;
+  }
+  
+  .app {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Căn trái */
+    text-align: left; /* Căn trái */
+    gap: 30px; /* Tăng gap */
+    flex: 1; /* Chiếm không gian */
+  }
+  
+  .app-text {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Giảm gap */
+  }
+  
+  .app span {
+    font-size: 1.6rem; /* Giảm kích thước span */
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+  
+  .app h2 { /* Thêm selector h2 */
+    font-size: 2.5em;
+    color: var(--text-color-dark);
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .app p {
+    color: var(--text-color-medium);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  
+  .dowload {
+    display: flex;
+    gap: 20px; /* Giảm gap */
+  }
+  
+  .dowload img {
+    width: 140px; /* Giảm nhẹ kích thước ảnh download */
+    height: auto;
+    cursor: pointer; /* Thêm con trỏ */
+    transition: transform 0.3s ease;
+  }
+  .dowload img:hover {
+      transform: scale(1.05); /* Hiệu ứng hover nhẹ */
+  }
+  
+  .phone-app {
+    flex-shrink: 0; /* Ngăn không cho ảnh bị co lại */
+    width: 100%; /* Linh hoạt */
+    max-width: 380px; /* Giữ nguyên max-width */
+  }
+  
+  .phone-app img { /* Style cho ảnh bên trong */
+      width: 100%;
+      height: auto;
+      display: block; /* Loại bỏ khoảng trống dưới ảnh */
+  }
+  
+  
+  /* === CONTACT SECTION (PAGE 4) === */
+  .page-4 {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 5% 12%; /* Giảm padding */
+    gap: 5%;
+    width: 100%;
+    background-color: var(--background-color-light); /* Thêm màu nền nhẹ */
+  }
+  
+  .talk {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    flex: 1; /* Cho phép chiếm không gian */
+    max-width: 700px; /* Giảm max-width */
+  }
+  
+  .talk span {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+  
+  .talk h2 {
+    color: var(--text-color-dark);
+    font-size: 2.5em;
+    margin: 0.5em 0;
+    font-weight: bold;
+  }
+  
+  .talk p {
+    color: var(--text-color-medium);
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 0 0 2rem 0; /* Giữ margin bottom */
+  }
+  
+  .page-4 button { /* Áp dụng style chung */
+    padding: 1rem 1.5rem; /* Tăng padding */
+    font-size: 1.8rem; /* Giữ nguyên */
+    margin-top: 0; /* Bỏ margin top */
+    flex-shrink: 0; /* Ngăn nút bị co lại */
+  }
+  
+  /* === FOOTER SECTION (LAST PAGE) === */
+  .last-page {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 80px 0 20px 0; /* Padding top nhiều hơn bottom */
+    align-items: center;
+    width: 100%;
+    background-color: var(--background-color-white); /* Đảm bảo nền trắng */
+  }
+  
+  .footer__container-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Căn các cột lên trên cùng */
+    text-align: left;
+    padding: 0 10%;
+    gap: 40px; /* Thêm gap giữa các cột */
+    width: 100%;
+    flex-wrap: wrap; /* Cho phép xuống dòng trên màn hình nhỏ hơn */
+  }
+  
+  .footer__content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Khoảng cách giữa các phần tử trong 1 cột */
+    min-width: 150px; /* Đặt chiều rộng tối thiểu cho các cột */
+  }
+  
+  .footer__content-text { /* Cột đầu tiên */
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Giảm gap */
+    margin-bottom: 15px; /* Giảm margin bottom */
+  }
+  
+  .footer__content-text a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.8rem; /* Tăng kích thước logo footer */
+  }
+  
+  .footer__content-text span { /* Mô tả 'Restaurant' */
+    font-size: 1.1rem; /* Giảm kích thước */
+    color: var(--text-color-medium);
+  }
+  
+  .social-network {
+    display: flex;
+    gap: 12px; /* Giảm gap */
+  }
+  
+  .social-network img {
+    width: 28px; /* Tăng kích thước icon social */
+    height: 28px; /* Đảm bảo vuông */
+    opacity: 0.7; /* Giảm độ sáng icon */
+    transition: opacity 0.3s ease;
+  }
+  .social-network img:hover {
+    opacity: 1; /* Sáng lên khi hover */
+  }
+  
+  .footer__content h3 {
+    font-size: 1.3em; /* Tăng kích thước tiêu đề cột */
+    color: var(--text-color-dark);
+    margin: 0 0 10px 0; /* Chỉ giữ margin bottom */
+    font-weight: 600; /* Tăng độ đậm */
+  }
+  
+  .footer__content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Tăng gap giữa các link */
+  }
+  
+  .footer__content li {
+     /* Không cần style gì thêm ở đây */
+  }
+  
+  .footer__content li a, /* Thêm style cho link trong list */
+  .footer__content li { /* Áp dụng cho cả text không phải link */
+    color: var(--text-color-medium);
+    text-decoration: none;
+    font-size: 1rem; /* Điều chỉnh font-size */
+    transition: color 0.3s ease;
+  }
+  
+  .footer__content li a:hover { /* Style hover cho link */
+    color: var(--primary-color);
+  }
+  
+  
+  .last-page > p { /* Copyright text */
+    text-align: center;
+    color: var(--text-color-medium);
+    font-size: 0.9rem;
+    margin-top: 40px; /* Tách biệt với phần trên */
+    width: 100%;
+    padding: 0 10%;
+  }
+  
+  
+  /* === MEDIA QUERIES === */
+  
+  /* -- Tablet & Small Desktop -- */
+  @media (max-width: 1024px) {
+    .tasty-food {
+        gap: 80px; /* Giảm gap chung */
+    }
+    .header {
+      padding: 0 1.5rem; /* Giảm padding header */
+      gap: 15%; /* Điều chỉnh gap header */
+    }
+    .nav-home {
+        gap: 15%;
+        padding-left: 8%;
+        padding-right: 8%;
+    }
+    .page-2 {
+        padding: 8% 8% 0;
+        gap: 4%;
+    }
+    .offering{
+        padding: 80px 5% 0; /* Điều chỉnh padding */
+    }
+    .row {
+        gap: 40px;
+    }
+    .special {
+        padding: 80px 5% 80px;
+    }
+    .food {
+        gap: 30px;
+        max-width: 90%;
+    }
+    .page-3 {
+        padding: 4% 8%;
+        gap: 5%;
+    }
+    .page-4 {
+        padding: 4% 8%;
+        gap: 4%;
+    }
+    .talk {
+        max-width: 50%; /* Cho phép talk chiếm 50% */
+    }
+     .footer__container-row{
+        padding: 0 8%;
+        gap: 30px; /* Giảm gap footer */
+    }
+    .footer__content {
+        min-width: 130px; /* Giảm min-width cột footer */
+    }
+  }
+  
+  /* -- Mobile -- */
+  @media (max-width: 768px) {
+    .tasty-food {
+        gap: 50px; /* Giảm gap tổng thể */
+    }
+  
+    /* Header cho mobile */
+    .header {
+        padding: 0 1rem; /* Giảm padding */
+        justify-content: space-between; /* Đảm bảo logo và menu icon ở 2 đầu */
+        gap: 0; /* Bỏ gap vì đã dùng space-between */
+    }
+    .header-tool {
+        justify-content: flex-end; /* Đẩy mode và menu icon về cuối */
+        gap: 0.5rem; /* Khoảng cách nhỏ giữa mode và menu icon */
+        flex: initial; /* Không cho chiếm hết không gian */
+    }
+    .navbar {
+        display: none; /* Ẩn navbar thường */
+    }
+    .menu {
+        display: flex; /* Hiện menu icon */
+    }
+  
+    /* Mobile Menu Styles */
+    .mobile-menu {
+        position: fixed;
+        top: var(--header-height); /* Ngay dưới header */
+        left: 0;
+        width: 100%;
+        background-color: var(--background-color-white);
+        box-shadow: 0 4px 4px var(--shadow-color);
+        z-index: 998;
+        /* display: none; */ /* Dùng JS để thêm/xóa class 'active' thay vì display */
+        max-height: 0; /* Bắt đầu ẩn */
+        overflow: hidden; /* Ẩn nội dung khi height=0 */
+        transition: max-height 0.4s ease-out; /* Hiệu ứng xổ xuống */
+    }
+    .mobile-menu.active {
+        max-height: 500px; /* Chiều cao đủ lớn để chứa menu */
+        /* display: block; */ /* Không cần */
+    }
+    .mobile-menu .nav-menu {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        width: 100%;
+        padding: 0; /* Reset padding */
+    }
+    .mobile-menu .nav-menu li {
+        width: 100%;
+        text-align: center;
+        padding: 15px 0; /* Padding trên dưới */
+        border-bottom: 1px solid var(--border-color-light);
+        height: auto; /* Reset height */
+        justify-content: center; /* Căn giữa text */
+    }
+     .mobile-menu .nav-menu li:last-child {
+         border-bottom: none; /* Bỏ border cho item cuối */
+     }
+     .mobile-menu .nav-menu li:hover {
+         /* Giữ nguyên hover effect */
+     }
+  
+  
+    /* Home section */
+    .nav-home {
+        flex-direction: column-reverse; /* Đưa ảnh lên trên chữ trên mobile */
+        text-align: center;
+        gap: 30px;
+        padding: calc(var(--header-height) + 30px) 5% 30px; /* Điều chỉnh padding top */
+    }
+    .nav-home img {
+        width: 90%;
+        max-width: 320px;
+    }
+    .introduce {
+        align-items: center; /* Căn giữa text */
+    }
+    .introduce h1 {
+        font-size: 2.8rem; /* Giảm font */
+    }
+    .introduce h2 {
+        font-size: 1.8rem; /* Giảm font */
+    }
+    .introduce button#view-menu {
+        font-size: 1.5rem; /* Giảm font button */
+        padding: 0.5rem 0.8rem;
+    }
+  
+    /* About section */
+    .page-2 {
+        flex-direction: column;
+        padding: 50px 5% 0; /* Điều chỉnh padding */
+        gap: 40px; /* Tăng gap */
+        align-items: center; /* Căn giữa */
+    }
+    .page-2 img {
+        width: 90%;
+        max-width: 320px;
+    }
+    .about-me {
+        align-items: center; /* Căn giữa */
+        text-align: center; /* Căn giữa */
+    }
+    .about-me h2 {
+        font-size: 2em;
+    }
+    .about-me p {
+        font-size: 1.1rem;
+    }
+    .about-me button {
+        font-size: 1.5rem;
+        padding: 0.6rem 1rem;
+    }
+  
+    /* Services section */
+    .offering {
+        padding: 50px 5% 0;
+        gap: 40px;
+    }
+    .offering-text h2 {
+        font-size: 2em;
+    }
+    .row {
+        flex-direction: column;
+        gap: 40px;
+        align-items: center;
+    }
+    .service-item {
+        max-width: 90%; /* Chiếm gần hết chiều rộng */
+    }
+  
+    /* Menu section */
+    .special {
+        padding: 50px 5% 50px;
+    }
+     .special-text h2 {
+        font-size: 2em;
+    }
+    .food {
+        gap: 30px; /* Giảm gap */
+        flex-direction: column; /* Xếp chồng lên nhau */
+        align-items: center; /* Căn giữa các item */
+    }
+    .special-item {
+        max-width: 90%; /* Chiếm gần hết chiều rộng */
+        width: 90%; /* Đảm bảo chiều rộng */
+    }
+  
+    /* App section */
+    .page-3 {
+        flex-direction: column;
+        padding: 50px 5% 50px;
+        align-items: center;
+        gap: 40px; /* Tăng gap */
+    }
+    .app {
+        align-items: center; /* Căn giữa */
+        text-align: center; /* Căn giữa */
+    }
+    .app h2 {
+        font-size: 2em;
+    }
+    .phone-app {
+        width: 80%; /* Giảm kích thước ảnh phone */
+        max-width: 300px;
+        order: -1; /* Đưa ảnh lên trên text */
+        margin-bottom: 20px; /* Thêm khoảng cách dưới ảnh */
+    }
+    .dowload {
+        flex-direction: row; /* Giữ lại row cho download buttons */
+        justify-content: center; /* Căn giữa buttons */
+        gap: 15px;
+    }
+    .dowload img {
+        width: 120px; /* Giữ kích thước */
+    }
+  
+    /* Contact section */
+    .page-4 {
+        flex-direction: column;
+        padding: 50px 5% 50px;
+        align-items: center;
+        text-align: center;
+        gap: 30px;
+    }
+    .talk {
+        align-items: center;
+        text-align: center;
+    }
+     .talk h2 {
+        font-size: 2em;
+    }
+    .page-4 button {
+        font-size: 1.5rem;
+        padding: 0.8rem 1.2rem;
+    }
+  
+    /* Footer section */
+    .last-page {
+        padding-top: 50px;
+        gap: 30px;
+    }
+    .footer__container-row {
+        flex-direction: column;
+        padding: 0 10%; /* Tăng padding ngang */
+        align-items: center; /* Căn giữa các cột */
+        text-align: center; /* Căn giữa text */
+        gap: 40px; /* Tăng gap giữa các cột */
+    }
+    .footer__content {
+        align-items: center; /* Căn giữa nội dung trong cột */
+        min-width: initial; /* Bỏ min-width */
+        width: 100%; /* Chiếm toàn bộ chiều rộng */
+    }
+    .footer__content ul {
+        align-items: center; 
+    }
+     .social-network {
+         justify-content: center; 
+     }
+     .last-page > p {
+         margin-top: 20px; 
+     }
+  }
